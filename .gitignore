@@ -1,0 +1,20 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+env/
+
+# Logs and temp files
+*.log
+*.txt
+*.xlsx
+
+# Scrapy output
+*.json
+*.csv
+
+# OS files
+.DS_Store
+Thumbs.db
