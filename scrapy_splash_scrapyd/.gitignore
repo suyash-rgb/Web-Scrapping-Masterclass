@@ -1,0 +1,36 @@
+# Ignore virtual environment
+.venv/
+venv/
+ENV/
+
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Scrapyd logs and eggs
+*.egg-info/
+.eggs/
+*.log
+
+# Jupyter notebooks checkpoints (if you experiment)
+.ipynb_checkpoints/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/project settings
+.vscode/
+.idea/
+
+# Build and distribution folders
+build/
+dist/
+
+# Excel and temporary data files (optional, if you don’t want to commit visited_links.xlsx)
+visited_links.xlsx
+
+# Requirements lock files (optional, if you generate them automatically)
+*.lock
