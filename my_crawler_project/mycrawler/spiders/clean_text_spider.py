@@ -14,14 +14,20 @@ class CleanTextSpider(scrapy.Spider):
     It also records visited links to an Excel file upon completion.
     """
     name = 'clean_text_spider'
-    start_urls = ['https://thestjgroup.com/']
+    #start_urls = ['http://www.prsuuniv.in/']
     
     
     visited_links = set()
-    output_filename = 'thestjgroup.txt' # New output file
+    output_filename = 'prsu.txt' # New output file
     
-    def __init__(self, output_file=None, *args, **kwargs):
+    def __init__(self, start_url=None, output_file=None, *args, **kwargs):
         super(CleanTextSpider, self).__init__(*args, **kwargs)
+        
+        # Dynamic URL Handling using command-line argument
+        if not start_url:
+            raise ValueError("You must provide a start_url using -a start_url=<URL>")
+        self.start_urls = start_url
+
         # Use the provided argument, or fall back to the default
         if output_file:
             self.output_filename = output_file 
@@ -53,6 +59,10 @@ class CleanTextSpider(scrapy.Spider):
                 self.log(f'robots.txt file saved from {robots_url}', level=logging.INFO)
         except Exception as e:
             self.log(f'Failed to load robots.txt file: {e}', level=logging.ERROR)
+
+    def start_requests(self):
+        """Starts from the dynamically provided start URL"""
+        yield scrapy.Request(url=self.start_urls, callback=self.parse)
 
     def spider_closed(self, spider):
         """Executed when the spider finishes. Closes the driver and saves visited links."""
@@ -114,7 +124,6 @@ class CleanTextSpider(scrapy.Spider):
                 # Store only a single sentence in a line, after that always start a new line
                 f.write(sentence + '\n')
                 
-        # --- End Text Cleaning ---
 
         # Follow links using Scrapy's mechanism combined with Selenium's page content
         sel_response = HtmlResponse(url=self.driver.current_url, body=self.driver.page_source, encoding='utf-8')
