@@ -1,24 +1,16 @@
-# Web Scrapping Masterclass
+# React + Vite
 
-## 📌 Project Objective
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-The objective of this project is to develop a robust and user-friendly web scraping module that enables users to extract clean, structured textual data from any website by simply providing its homepage URL. The module is designed to operate in full compliance with ethical scraping practices and technical safeguards.
+Currently, two official plugins are available:
 
-### Key Goals
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- **Automate discovery and scraping** of all internal pages within the target domain.
-- **Parse and clean extracted text** by:
-  - Splitting content into individual sentences using standard punctuation.
-  - Removing excessive whitespace, hashtags, and embedded URLs.
-  - Filtering out short or non-coherent fragments.
-  - Ensuring each sentence is written on a new line for clarity and downstream processing.
-- **Respect robots.txt directives** and store a copy locally for future reference or dispute resolution.
-- **Maintain a `visited_links.xlsx` file** to track all URLs visited during the scraping process, supporting transparency and performance validation.
-- **Prevent cross-domain scraping** by restricting the crawler to the original domain only.
-- **Allow user-defined output format** (CSV, JSON, or plain text) and filename for saving the cleaned data.
+## React Compiler
 
----
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### Intended Use
+## Expanding the ESLint configuration
 
-This module is intended for **educational and instructional use**, demonstrating scalable scraping workflows with a hands-on approach.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
