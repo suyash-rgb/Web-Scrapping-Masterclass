@@ -1,9 +1,7 @@
-
 import re
 import pandas as pd
 import base64
 import io
-#
 from itemadapter import ItemAdapter
 
 class CleanTextPipeline:
@@ -14,12 +12,20 @@ class CleanTextPipeline:
     def __init__(self):
         self.sentences = []
         self.visited_links = set()
+        self.robots_txt_content = None
 
     def process_item(self, item, spider):
         adapter=ItemAdapter(item) 
+        
+        # Handle robots.txt content
+        robots_txt = adapter.get('robots_txt')
+        if robots_txt:
+            self.robots_txt_content = robots_txt
+            return item
+
+        #Handle other text items
         text = adapter.get('text', '')
         url=adapter.get('url', '')
-
         if url:
             self.visited_links.add(url)
 
@@ -50,9 +56,16 @@ class CleanTextPipeline:
         df.to_excel(excel_bytes, index=False, engine="openpyxl")
         excel_b64 = base64.b64encode(excel_bytes.getvalue()).decode("utf-8")
 
+        # --- Encode robots.txt into Base64 ---
+        robots_b64 = None
+        if self.robots_txt_content:
+            robots_b64 = base64.b64encode(self.robots_txt_content.encode("utf-8")).decode("utf-8")
+
         #Instead of writing files, yield the final encoded results
         spider.crawler.stats.set_value("text_file_base64", text_b64)
         spider.crawler.stats.set_value("excel_file_b64", excel_b64)
+        if robots_b64:
+            spider.crawler.stats.set_value("robots_txt_base64", robots_b64)
 
         spider.log(
             "Pipeline finished. Base 64 files encoded and attached to Zyte job output.",

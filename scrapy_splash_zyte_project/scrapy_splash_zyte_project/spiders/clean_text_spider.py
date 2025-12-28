@@ -13,14 +13,30 @@ class CleanTextSplashSpider(scrapy.Spider):
         self.visited_links = set()
 
     def start_requests(self):
+        # Request robots.txt file first
+        domain = urlparse(self.start_url).scheme + "://" + urlparse(self.start_url).netloc
+        robots_url = domain + "/robots.txt"
+        yield scrapy.Request(url=robots_url, callback=self.parse_robots, dont_filter=True)
+
+        # the start crawling with Splash
         yield SplashRequest(url=self.start_url, callback=self.parse, args={'wait': 1})
 
-    def parse(self, response):
-        text_nodes = response.css("body *::text").getall()
-        sentences = [s.strip() for s in text_nodes if s.strip()]
-        for sentence in sentences:
-            yield {"sentence": sentence, "url": response.url}
+    def parse_robots(self, response):
+        # Yield the robots.txt content for pipeling
+        yield {
+            "robots_txt": response.text,
+            "url": response.url
+        }
 
+    def parse(self, response):
+        #first collect raw text from the page
+        body_text = " ".join(response.css("body *::text").getall())
+        yield {
+            "text": body_text,
+            "url": response.url
+        }
+
+        #Follow links within the same domain
         for link in response.css("a::attr(href)").getall():
             abs_url = response.urljoin(link)
             if self.is_within_domain(abs_url) and abs_url not in self.visited_links:
