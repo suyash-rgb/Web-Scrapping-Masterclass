@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+*.log
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+*.env
+
+# Build / packaging
+build/
+dist/
+*.spec
+
+# Scrapy
+.scrapy/
+*.db
+*.sqlite
+
+# Playwright
+# Browser binaries installed by `playwright install`
+playwright/.cache/
+playwright/.local-browsers/
+
+# Jupyter / notebooks
+.ipynb_checkpoints/
+
+# VSCode / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Render / deployment
+# (keep requirements.txt, but ignore local lock files)
+Pipfile.lock
+poetry.lock
+
+# Data outputs
+*.xlsx
+*.csv
+*.json
+*.txt
+*.pdf
+
+# Uvicorn / FastAPI runtime
+*.pid
+*.sock
